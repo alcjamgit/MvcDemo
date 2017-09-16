@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcDemo.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,34 +8,17 @@ using System.Web.Http;
 
 namespace MvcDemo.Controllers
 {
-    [Authorize]
     public class ValuesController : ApiController
     {
-        // GET api/values
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/values
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post([FromBody]NumberInputModel model)
         {
+            if (model == null)
+                throw new ArgumentNullException("Model cannot be null");
+
+            var result = model.FirstNumber + model.SecondNumber;
+            return Ok(result);
         }
 
-        // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
     }
 }
